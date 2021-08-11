@@ -8,8 +8,14 @@ import reducers from "./reducer";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { Provider } from "react-redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 
-const store = createStore(reducers, applyMiddleware(thunk, logger));
+window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__();
+
+const store = createStore(
+  reducers,
+  composeWithDevTools(applyMiddleware(thunk, logger))
+);
 
 ReactDOM.render(
   <React.StrictMode>

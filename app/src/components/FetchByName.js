@@ -8,9 +8,14 @@ const FetchByName = (props) => {
   const handleInput = (e) => {
     setName(e.target.value);
   };
+
+  useEffect(() => {
+    props.fetchByName(name.trim().toLowerCase());
+  }, []);
+
   const searchHandler = () => {
     setName("");
-    props.nameQuotes();
+    props.fetchByName(name.trim().toLowerCase());
   };
 
   return (
@@ -23,6 +28,18 @@ const FetchByName = (props) => {
         onChange={handleInput}
       />
       <button onClick={searchHandler}>Search</button>
+      <div>
+        {!props.nameQuotes[0]
+          ? ""
+          : props.nameQuotes[0].map((item) => {
+              return (
+                <div>
+                  <p>------------------------</p>
+                  <p>{item.sentence}</p>
+                </div>
+              );
+            })}
+      </div>
     </SearchStyle>
   );
 };
@@ -52,10 +69,10 @@ const SearchStyle = styled.div`
 `;
 
 const mapStateToProps = (state) => {
-  console.log(state.randomReducer);
+  console.log(state.searchNameReducer.nameQuotes);
   return {
-    nameQuotes: state.randomReducer.randomQuotes,
+    nameQuotes: state.searchNameReducer.nameQuotes,
   };
 };
 
-export default connect(mapStateToProps)(FetchByName);
+export default connect(mapStateToProps, { fetchByName })(FetchByName);

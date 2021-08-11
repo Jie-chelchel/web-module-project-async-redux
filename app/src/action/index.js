@@ -39,17 +39,36 @@ const fetchRandom = () => {
 
 export default fetchRandom;
 
+export const fetchNameRequest = () => {
+  return {
+    type: "NAME_REQUEST",
+  };
+};
+export const fetchNameSuccess = (quotes) => {
+  return {
+    type: "NAME_SUCCESS",
+    payload: quotes,
+  };
+};
+export const fetchNameFailure = (err) => {
+  return {
+    type: "NAME_FAILURE",
+    payload: err,
+  };
+};
 export const fetchByName = (name) => {
   return (dispatch) => {
-    dispatch(fetchRequest());
+    dispatch(fetchNameRequest());
 
     gameOfThrones
-      .get(`/author/${name}`)
+      .get(`/author/${name}/5`)
       .then((res) => {
         const nameQuote = res.data;
-        dispatch(fetchSuccess(nameQuote));
+        console.log(nameQuote);
+        dispatch(fetchNameSuccess(nameQuote));
+
         console.log(nameQuote);
       })
-      .catch((err) => dispatch(fetchFailure(err.message)));
+      .catch((err) => dispatch(fetchNameFailure(err.message)));
   };
 };
