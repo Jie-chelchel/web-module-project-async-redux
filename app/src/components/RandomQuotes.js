@@ -1,29 +1,36 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { connect } from "react-redux";
 import fetchRandom from "../action";
-import { props } from "bluebird";
+import styled from "styled-components";
 
 const RandomQuotes = (props) => {
+  // useEffect(() => {
+  //   props.fetchRandom();
+  // }, []);
+
   const fetchRandomHandler = () => {
     props.fetchRandom();
   };
-  console.log(props.randomQuotes);
-  return (
-    <div>
-      <div onClick={fetchRandomHandler}>
-        <h1>RandomQuotes</h1>
-      </div>
-      {props.randomQuotes.map((item, index) => {
-        return (
-          <div key={index}>
-            <h4> House : {item.character.house.name}</h4>
-            <h5> Name : {item.character.name}</h5>
 
-            <p>{item.sentence}</p>
-          </div>
-        );
-      })}
-    </div>
+  return (
+    <RandomStyle>
+      <button onClick={fetchRandomHandler}>
+        Click me to check some random quotes!
+      </button>
+      <div className="container">
+        <h4>{props.randomQuotes[0] ? props.randomQuotes[0].sentence : ""}</h4>
+        <div>
+          {props.randomQuotes[0]
+            ? `By: ${props.randomQuotes[0].character.name}`
+            : ""}
+        </div>
+        <div>
+          {props.randomQuotes[0]
+            ? props.randomQuotes[0].character.house.name
+            : ""}
+        </div>
+      </div>
+    </RandomStyle>
   );
 };
 
@@ -34,4 +41,21 @@ const mapStateToProps = (state) => {
   };
 };
 
+const RandomStyle = styled.div`
+  background: #05665e;
+  width: 80%;
+  margin: 1rem auto;
+  // height: 20vh;
+
+
+  & button{
+    background: #05665e;
+    padding: 1rem 2rem;
+    margin: 3rem
+    border-radius: 15px;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+  }
+`;
 export default connect(mapStateToProps, { fetchRandom })(RandomQuotes);

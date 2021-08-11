@@ -15,7 +15,7 @@ const randomReducer = (state = initialState, action) => {
     case FETCH_SUCCESS:
       return {
         loading: false,
-        randomQuotes: [...state.randomQuotes, action.payload],
+        randomQuotes: [action.payload],
         error: "",
       };
     case FETCH_FAILURE:

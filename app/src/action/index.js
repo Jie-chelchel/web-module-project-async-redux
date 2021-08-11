@@ -32,10 +32,24 @@ const fetchRandom = () => {
       .then((res) => {
         const randomQuote = res.data;
         dispatch(fetchSuccess(randomQuote));
-        console.log(randomQuote);
       })
       .catch((err) => dispatch(fetchFailure(err.message)));
   };
 };
 
 export default fetchRandom;
+
+export const fetchByName = (name) => {
+  return (dispatch) => {
+    dispatch(fetchRequest());
+
+    gameOfThrones
+      .get(`/author/${name}`)
+      .then((res) => {
+        const nameQuote = res.data;
+        dispatch(fetchSuccess(nameQuote));
+        console.log(nameQuote);
+      })
+      .catch((err) => dispatch(fetchFailure(err.message)));
+  };
+};
